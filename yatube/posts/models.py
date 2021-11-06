@@ -1,6 +1,6 @@
 # posts/models.py
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 
 User = get_user_model()
 
@@ -10,12 +10,12 @@ class Group(models.Model):
     slug = models.SlugField('URL', unique=True)
     description = models.TextField('Описание')
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = 'Группа постов'
         verbose_name_plural = 'Группы постов'
+
+    def __str__(self):
+        return self.title
 
 
 class Post(models.Model):
@@ -37,6 +37,9 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = tuple(['-pub_date'])
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
+
+    def __str__(self):
+        return f'Пост за авторством {self.author} от {self.pub_date}.'
